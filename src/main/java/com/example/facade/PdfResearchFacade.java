@@ -2,6 +2,8 @@ package com.example.facade;
 
 import com.example.config.FreemarkerConfiguration;
 import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.Pipeline;
 import com.itextpdf.tool.xml.XMLWorker;
@@ -25,13 +27,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -49,6 +54,17 @@ public class PdfResearchFacade {
         String fileName = String.format("%s.pdf", fontNameParam + "-" + System.currentTimeMillis());
         response.addHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, CHARSET_NAME));
         export(fontNameParam, new HashMap<>(), "pdf.html", out);
+    }
+
+    public List<String> font(){
+        GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        String[] fontName = environment.getAvailableFontFamilyNames();
+        List<String> fontList = new ArrayList<>();
+        for (int i = 0; i < fontName.length; i++) {
+            log.info(fontName[i]);
+            fontList.add(fontName[i]);
+        }
+        return fontList;
     }
 
     public void export(String fontNameParam, Map<String, Object> paramMap, String templateName, OutputStream out) throws Exception {

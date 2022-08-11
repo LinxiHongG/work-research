@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -23,5 +24,10 @@ public class PdfResearchController {
         pdfResearchFacade.pdfResearch(fontName, response);
     }
 
+    @GetMapping("1")
+    public List<String> font(){
+        List<String> fontList = pdfResearchFacade.font();
+        return fontList;
+    }
 
 }
